@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>git test 1</title>
+	<script type="text/javascript">
+
+		function del(){
+			node = document.getElementById("div1");
+	        var children = node.childNodes;
+	        for(var i=0;i<children.length; i++) {
+		        var child = children[i];          
+		        node.removeChild(child);
+      		}
+      		document.write("<p> hello </p> ");
+      		document.write("<button> get started </button>");
+		}
+
+	</script>
+</head>
+<body>
+	<div >
+		<button onclick="del()">del</button>
+		<button onclick="gg()">ff</button>
+		<div id="div1">
+			<form name="myform" action="#" method="post" onsubmit="return save()">
+			
+					  <p>
+					    <input type="hidden" id="content" name="content" value="" />
+					  </p>
+					  <script type="text/javascript">
+					    // Вывод кнопок редактирования
+					    document.write("<input type='button' value='B' onclick='setBold()' />");
+					    document.write("<input type='button' value='I' onclick='setItal()' />");
+					    //document.write("<button onclick="+"gg()"+">gg</button>");
+					    document.write("<br />");
+					    document.write("<iframe scrolling='no' frameborder='no' src='#' id='frameId' name='frameId'></iframe>"); // Добавляем iframe
+					    /* В зависимости от браузера получаем доступ к созданному фрейму */
+					    var isGecko = navigator.userAgent.toLowerCase().indexOf("gecko") != -1;
+					    var iframe = (isGecko) ? document.getElementById("frameId") : frames["frameId"];
+					    var iWin = (isGecko) ? iframe.contentWindow : iframe.window;
+					    var iDoc = (isGecko) ? iframe.contentDocument : iframe.document;
+					    /* Создаём код пустой HTML-страницы */
+					    iHTML = "<html><head></head><body style='background-color: green;'></body></html>";
+					    iDoc.open(); // Открываем фрейм
+					    iDoc.write(iHTML); // Добавляем написанный код в фрейм
+					    iDoc.close(); // Закрываем фрейм
+					    iDoc.designMode = "on"; // Включаем режим редактирования фрейма
+					    /* Функции для задания внешнего вида выделенного текста
+					    Полный набор возможных команд: http://javascript.itsoft.ru/execcom/execCommands.html */
+					    function setBold() {
+					      iWin.focus();
+					      iWin.document.execCommand("bold", null, "");
+					    }
+					    function setItal() {
+					      iWin.focus();
+					      iWin.document.execCommand("italic", null, "");
+					    }
+					    function save() {
+					      /* Сохранение HTML-кода в поле hidden, чтобы потом можно было передать полученный HTML-код в скрипт-обработчик */
+					      //document.getElementById("content").value = iDoc.body.innerHTML; 
+					      //alert(iDoc.body.innerHTML);
+					      //iDoc.write("<html><head></head><body style='background-color: green;'> <p><b>hohoho</b></p></body></html>");
+					      //return true;
+					    }
+
+					    function gg(){
+					    	//iDoc.write("<html><head></head><body style='background-color: green;'> <p><b>hohoho</b></p></body></html>");
+					    	iDoc.body.innerHTML = "<p>HHHHadsgfad<b>gkj</b>dbsagj</p>";
+					    }
+					    gg();
+					  </script>
+					  <p>
+					    <input type="submit" value="Отправить" />
+					  </p>
+		</form>
+
+		</div>
+		
+	</div>
+				
+
+</body>
+</html>
