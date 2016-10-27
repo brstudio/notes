@@ -2,14 +2,34 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>git test 1</title>
+	 <link href="style.css" rel="stylesheet">
 	<script type="text/javascript">
+		
+		function newNote(){
+			let newTextArea = document.createElement('textarea');
+  			newTextArea.innerHTML = 'Привет, мир!';
+  			newTextArea.id = "forms__textarea";
+  			let _base_div__forms = document.getElementById("_base-div__forms");
+  			_base_div__forms.appendChild(newTextArea);
+			let textArea = document.getElementById("forms__textarea");
+			textArea.innerHTML = "azazaza";
+		}
 
 	</script>
 
-	<title></title>
+	<title>Notes</title>
 </head>
 <body>
+	<div class="base-div">
+		<button onclick="newNote()">new note</button>
+		<button>all notes</button>
+		<button>etc</button>
+		<div class="base-div__forms" id="_base-div__forms">
+			
+		</div>
+		
+
+	</div>
 
 </body>
 </html>
