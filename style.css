@@ -1,11 +1,11 @@
 [contentEditable=true]:empty:before{
   content: attr(placeholder);
-  display: block; /* For Firefox */
+  display: block; 
 }
 
 [contentEditable=false]:empty:before{
   
-  display: block; /* For Firefox */
+  display: block; 
 }
 
 .btn{
