@@ -1,3 +1,12 @@
+[contentEditable=true]:empty:before{
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+}
+
+[contentEditable=false]:empty:before{
+  
+  display: block; /* For Firefox */
+}
 
 .hashtag {
 	color: red;
@@ -7,6 +16,8 @@
 	border: 1px solid black;
 	font-family: "Calibri";
 	border-radius: 5px;
+	height: 20px;
+	margin-top: 10px;
 }
 
 .noteListItem:hover{

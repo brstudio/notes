@@ -14,19 +14,39 @@
 				localStorage.setItem('maxKey','1');
 			}
 		}
-
+/*
+		function del(){
+			node = document.getElementById("div1");
+	        var children = node.childNodes;
+	        for(var i=0;i<children.length; i++) {
+		        var child = children[i];          
+		        node.removeChild(child);
+      		}
+      		document.write("<p> hello </p> ");
+      		document.write("<button> get started </button>");
+		}
+*/
 		function deleteNodes(){
-
+			node = document.getElementById("__base-div__forms");
+	        let children = node.childNodes;
+	        if (children.length > 0){
+	        	for(let i = 0; i < children.length; i++) {
+		        	//let child = children[i];          
+		        	node.removeChild(children[i]);
+      			}	
+	        }
 		}
 
 		function qq(k){
 			alert(k);
 		}
 
-		
+
 
 		function showNotesList(){
 			//delete previous nodes in DOM
+			deleteNodes();
+
 			let _notesListDiv = document.createElement('div');
 			_notesListDiv.id = "__forms__notesList";
 			_notesListDiv.className = "notesList";
@@ -47,33 +67,51 @@
 						let _newLi = document.createElement('li');
 						_newLi.id = _key;
 						_newLi.className = "noteListItem";
-						_newLi.innerHTML = localStorage.getItem(_key);
-						
+						_newLi.innerHTML = localStorage.getItem(_key);						
+						_newLi.addEventListener('click', function(){note(_key);});
 						ul.appendChild(_newLi);	
 					}					
 				}	
 			}
 		}
 		
-		function note(){
+		function note(flg){
 			/*
 			flags: 
 			1- new note
 			2 - show note
 			*/
 			//delete previous childs DOM 
+			deleteNodes();
 			let _newTextArea = document.createElement('div');
   			_newTextArea.id = "__forms__textarea";
   			_newTextArea.className = "textarea_div";
-  			_newTextArea.contentEditable = true;
-  			_newTextArea.innerHTML = `Привет, мир! 
-  			<br>  			
-  			hohoho`;  			
+  			_newTextArea.contentEditable = false;
+  			//_newTextArea.innerHTML = ` `;  
+  			//_newTextArea.readonly = true;
+  			_newTextArea.setAttribute("placeHolder","enter note text");	
+  			//_newTextArea.innerHTML = `sadasdasd `;	
 			document.getElementById("__base-div__forms").appendChild(_newTextArea);
-			let _newBtnSave = document.createElement('button');
-			_newBtnSave.innerHTML = 'save';
-			_newBtnSave.onclick = saveNote;
-			document.getElementById("__base-div__forms").appendChild(_newBtnSave);			
+			//breakpoint: flg view|new note
+			if (flg == undefined){ //new note
+				_newTextArea.contentEditable = true;
+				let _newBtnSave = document.createElement('button');
+				_newBtnSave.innerHTML = 'save';
+				_newBtnSave.onclick = saveNote;
+				document.getElementById("__base-div__forms").appendChild(_newBtnSave);		
+
+				let _newBtnSave1 = document.createElement('button');
+				_newBtnSave1.innerHTML = 'save1';
+				_newBtnSave1.onclick = te;
+				document.getElementById("__base-div__forms").appendChild(_newBtnSave1);	
+			} else { //view note
+				_newTextArea.innerHTML = localStorage.getItem(flg);
+			}
+			
+		}
+
+		function te(){
+			document.getElementById("__forms__textarea").contentEditable = true;
 		}
 
 		function saveNote(){
