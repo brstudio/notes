@@ -14,27 +14,13 @@
 				localStorage.setItem('maxKey','1');
 			}
 		}
-/*
-		function del(){
-			node = document.getElementById("div1");
-	        var children = node.childNodes;
-	        for(var i=0;i<children.length; i++) {
-		        var child = children[i];          
-		        node.removeChild(child);
-      		}
-      		document.write("<p> hello </p> ");
-      		document.write("<button> get started </button>");
-		}
-*/
+
 		function deleteNodes(){
-			node = document.getElementById("__base-div__forms");
-	        let children = node.childNodes;
-	        if (children.length > 0){
-	        	for(let i = 0; i < children.length; i++) {
-		        	//let child = children[i];          
-		        	node.removeChild(children[i]);
-      			}	
-	        }
+			
+	        let _node = document.getElementById("__base-div__forms");
+			while (_node.firstChild) {
+			    _node.removeChild(_node.firstChild);
+			}
 		}
 
 		function qq(k){
