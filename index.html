@@ -8,6 +8,8 @@
 		все переменные с _x , все id с __x
 	*/
 		const _mask = 'n_';
+		let _globalHashTagsSet = new Set();
+		let _currTags = new Set();
 
 		function init(){
 			if (localStorage.length <= 0){
@@ -52,14 +54,14 @@
 					}					
 				}	
 			}
-		}
+		}		
 		
-		/*
-			flags: 
-			undefined- new note
-			noteID - show note
-		*/
-		function note(flg){			
+		function note(flg){		
+			/*
+				flags: 
+				undefined- new note
+				noteID - show note
+			*/	
 			//delete previous childs DOM 
 			deleteNodes("__base-div__forms");
 			let _newTextArea = document.createElement('div');
@@ -68,19 +70,24 @@
   			_newTextArea.contentEditable = false;  			
   			_newTextArea.setAttribute("placeHolder","enter note text");	  			
 			document.getElementById("__base-div__forms").appendChild(_newTextArea);
+			let _tagsArea = document.createElement('p');
+			_tagsArea.id ="__tagsArea";
+			_tagsArea.className = "tagsArea";
+			document.getElementById("__base-div__forms").appendChild(_tagsArea);
 			//breakpoint: flg view|new note
 			if (flg == undefined){ //new note
 				_newTextArea.contentEditable = true;
-				addSaveButton();	
-				parseCurrTags();	
-				//after click divedit false, parse tags, hide btn save, output tags under div
+				addSaveButton();				
+				parseCurrTags();				
 			} else { //view note
 				addBtnDel(flg);
-				_newTextArea.innerHTML = localStorage.getItem(flg);
+				_newTextArea.innerHTML = localStorage.getItem(flg);				
+				parseTags(_newTextArea.innerHTML);
 				_newTextArea.addEventListener('dblclick', function(){ 
 					//edit onclick
 					document.getElementById("__forms__textarea").contentEditable = true;
 					addSaveButton(flg);
+					
 					parseCurrTags();
 				});
 			}			
@@ -124,13 +131,43 @@
 				num++;
 				localStorage.setItem(_mask + num,document.getElementById("__forms__textarea").innerHTML);
 				localStorage.setItem('maxKey', num);	
+				//save tags from global to localstorage
 			} else {//edit note save
 				localStorage.setItem(flg, document.getElementById("__forms__textarea").innerHTML);
+				//save tags from global to localstorage
 			}			
 		}
 
 		function parseTagsInArray(){
 			//put tags in global variable from localstorage
+		}
+
+		
+
+		function saveGlobalTags(){
+			//save to localstorage
+		}
+
+		function clearTempSet(){
+			for (let item of _currTags) _currTags.delete(item);			
+		}
+
+		function parseTags(text){
+			clearTempSet();
+			let _tagsArray =[];
+					_tagsArray = text;
+					_tagsArray = _tagsArray.split(' ');
+					for (let i = 0; i < _tagsArray.length; i++){
+						if (_tagsArray[i].indexOf('#') == 0 ){
+							//add tag to global-temp array	
+							_currTags.add(_tagsArray[i]);
+							//add to global tags
+						}
+					}
+					//alert(Array.from(_currTags));
+					//вывод тегов в поле
+
+					document.getElementById("__tagsArea").innerHTML = Array.from(_currTags);
 		}
 
 		function parseCurrTags(){
@@ -139,13 +176,12 @@
 			input.addEventListener('keyup', function (event) {
 				if (event.keyCode == 32){
 					let text = this.textContent;
-					//alert(text);
-					
+					parseTags(text);
 				}
 			});			 
 		}
 
-		
+		/*
 		let input;
 		function parseInputTags(){
 			let input = document.querySelector('.textarea_div');
@@ -183,7 +219,7 @@
 		        textRange.select();
 		    }
 		}
-
+*/
 
 		init();
 	</script>

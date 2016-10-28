@@ -8,6 +8,14 @@
   display: block; 
 }
 
+.tagsArea{
+	border: 1px solid black;
+	font-family: "Calibri";
+	border-radius: 5px;
+	height: 20px;
+	margin-top: 10px;	
+}
+
 .btn{
 	margin-top: 10px;
 }
