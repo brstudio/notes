@@ -1,3 +1,4 @@
+
 .hashtag {
 	color: red;
 }
@@ -5,6 +6,18 @@
 .textarea_div {
 	border: 1px solid black;
 	font-family: "Calibri";
-	border-radius: 5;
+	border-radius: 5px;
+}
+
+.noteListItem:hover{
+	background: rgba(0, 0, 0, .4);
+	color: rgba(255, 255, 255, .9)
+}
+.noteListItem{
+	border: 1px solid rgba(0, 0, 0, .3);
+	font-family: "Calibri";
+	border-radius: 5px;	
+	list-style-type: none;
+	margin-top: 10px;
 }
 

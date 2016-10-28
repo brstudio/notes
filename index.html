@@ -7,36 +7,61 @@
 	/*
 		все переменные с _x , все id с __x
 	*/
+		const _mask = 'n_';
+
 		function init(){
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
 			}
 		}
 
+		function deleteNodes(){
+
+		}
+
+		function qq(k){
+			alert(k);
+		}
+
+		
+
 		function showNotesList(){
+			//delete previous nodes in DOM
 			let _notesListDiv = document.createElement('div');
 			_notesListDiv.id = "__forms__notesList";
 			_notesListDiv.className = "notesList";
 			//add div into DOM
 			document.getElementById("__base-div__forms").appendChild(_notesListDiv);
-
 			let _newUl = document.createElement('ul');
 			_newUl.id = "__newUl";
 			//add ul into div
 			document.getElementById("__forms__notesList").appendChild(_newUl);
-			//verify localstorage length
 			let ul = document.getElementById("__newUl");
-			for (let i = 1; i < localStorage.length; i++) {
-				let _newLi = document.createElement('li');
-				_newLi.innerHTML = 'i = '+i+' !';
-				ul.appendChild(_newLi);
+			//verify localstorage length
+			if (localStorage.length > 0) {
+				//add li into ul in loop
+				for (let i = 0; i < localStorage.length; i++) {
+					//mask verify
+					let _key = localStorage.key(i);
+					if (_key.indexOf(_mask) == 0) {
+						let _newLi = document.createElement('li');
+						_newLi.id = _key;
+						_newLi.className = "noteListItem";
+						_newLi.innerHTML = localStorage.getItem(_key);
+						
+						ul.appendChild(_newLi);	
+					}					
+				}	
 			}
-			//add li into ul in loop
-
-
 		}
 		
-		function newNote(){
+		function note(){
+			/*
+			flags: 
+			1- new note
+			2 - show note
+			*/
+			//delete previous childs DOM 
 			let _newTextArea = document.createElement('div');
   			_newTextArea.id = "__forms__textarea";
   			_newTextArea.className = "textarea_div";
@@ -61,12 +86,12 @@
 				alert(localStorage.key('tags'));
 			}*/
 
-			if (localStorage.length > 0) {
+			
 				let num = parseInt(localStorage.getItem('maxKey'),10);
 				num++;
-				localStorage.setItem('n_' + num,document.getElementById("__forms__textarea").innerHTML);
+				localStorage.setItem(_mask + num,document.getElementById("__forms__textarea").innerHTML);
 				localStorage.setItem('maxKey', num);	
-			}			
+				
 		}
 
 		function parseTags(){
@@ -117,7 +142,7 @@
 </head>
 <body>
 	<div class="base-div">
-		<button onclick="newNote()">new note</button>
+		<button onclick="note()">new note</button>
 		<button onclick="showNotesList()">all notes</button>
 		<button>etc</button>
 		<div class="base-div__forms" id="__base-div__forms">
