@@ -27,8 +27,6 @@
 			alert(k);
 		}
 
-
-
 		function showNotesList(){
 			//delete previous nodes in DOM
 			deleteNodes();
@@ -38,13 +36,13 @@
 			_notesListDiv.className = "notesList";
 			//add div into DOM
 			document.getElementById("__base-div__forms").appendChild(_notesListDiv);
+			//add ul into div
 			let _newUl = document.createElement('ul');
 			_newUl.id = "__newUl";
-			//add ul into div
 			document.getElementById("__forms__notesList").appendChild(_newUl);
 			let ul = document.getElementById("__newUl");
 			//verify localstorage length
-			if (localStorage.length > 0) {
+			if (localStorage.length > 1) { //1 - maxID, 2 - tags array, change on 2 later
 				//add li into ul in loop
 				for (let i = 0; i < localStorage.length; i++) {
 					//mask verify
@@ -53,7 +51,7 @@
 						let _newLi = document.createElement('li');
 						_newLi.id = _key;
 						_newLi.className = "noteListItem";
-						_newLi.innerHTML = localStorage.getItem(_key);						
+						_newLi.innerHTML = localStorage.getItem(_key);	
 						_newLi.addEventListener('click', function(){note(_key);});
 						ul.appendChild(_newLi);	
 					}					
@@ -61,46 +59,45 @@
 			}
 		}
 		
-		function note(flg){
-			/*
+		/*
 			flags: 
-			1- new note
-			2 - show note
+			undefined- new note
+			noteID - show note
 			*/
+		function note(flg){			
 			//delete previous childs DOM 
 			deleteNodes();
 			let _newTextArea = document.createElement('div');
   			_newTextArea.id = "__forms__textarea";
   			_newTextArea.className = "textarea_div";
-  			_newTextArea.contentEditable = false;
-  			//_newTextArea.innerHTML = ` `;  
-  			//_newTextArea.readonly = true;
-  			_newTextArea.setAttribute("placeHolder","enter note text");	
-  			//_newTextArea.innerHTML = `sadasdasd `;	
+  			_newTextArea.contentEditable = false;  			
+  			_newTextArea.setAttribute("placeHolder","enter note text");	  			
 			document.getElementById("__base-div__forms").appendChild(_newTextArea);
 			//breakpoint: flg view|new note
 			if (flg == undefined){ //new note
 				_newTextArea.contentEditable = true;
-				let _newBtnSave = document.createElement('button');
-				_newBtnSave.innerHTML = 'save';
-				_newBtnSave.onclick = saveNote;
-				document.getElementById("__base-div__forms").appendChild(_newBtnSave);		
-
-				let _newBtnSave1 = document.createElement('button');
-				_newBtnSave1.innerHTML = 'save1';
-				_newBtnSave1.onclick = te;
-				document.getElementById("__base-div__forms").appendChild(_newBtnSave1);	
+				addSaveButton();		
 			} else { //view note
 				_newTextArea.innerHTML = localStorage.getItem(flg);
-			}
-			
+				_newTextArea.addEventListener('dblclick', function(){ 
+					//edit onclick
+					document.getElementById("__forms__textarea").contentEditable = true;
+					addSaveButton();
+				});
+
+			}			
+		}	
+
+		function addSaveButton(){// flags new|edit
+			let _newBtnSave = document.createElement('button');
+			_newBtnSave.innerHTML = 'save';
+			_newBtnSave.onclick = saveNote; //addeventlistener
+			_newBtnSave.className = "btn";
+			document.getElementById("__base-div__forms").appendChild(_newBtnSave);
 		}
 
-		function te(){
-			document.getElementById("__forms__textarea").contentEditable = true;
-		}
-
-		function saveNote(){
+		function saveNote(){//flags new|edit, if edit => add localstorage key = flg id
+			//if flg == undefined = new note add
 			//alert(document.getElementById("__forms__textarea").innerHTML);
 			/*
 			if (localStorage.key('tags') == null) {

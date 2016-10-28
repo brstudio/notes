@@ -8,6 +8,10 @@
   display: block; /* For Firefox */
 }
 
+.btn{
+	margin-top: 10px;
+}
+
 .hashtag {
 	color: red;
 }
