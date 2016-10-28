@@ -4,30 +4,55 @@
 	<meta charset="utf-8">
 	 <link href="style.css" rel="stylesheet">
 	<script type="text/javascript">
-
+	/*
+		все переменные с _x , все id с __x
+	*/
 		function init(){
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
 			}
 		}
+
+		function showNotesList(){
+			let _notesListDiv = document.createElement('div');
+			_notesListDiv.id = "__forms__notesList";
+			_notesListDiv.className = "notesList";
+			//add div into DOM
+			document.getElementById("__base-div__forms").appendChild(_notesListDiv);
+
+			let _newUl = document.createElement('ul');
+			_newUl.id = "__newUl";
+			//add ul into div
+			document.getElementById("__forms__notesList").appendChild(_newUl);
+			//verify localstorage length
+			let ul = document.getElementById("__newUl");
+			for (let i = 1; i < localStorage.length; i++) {
+				let _newLi = document.createElement('li');
+				_newLi.innerHTML = 'i = '+i+' !';
+				ul.appendChild(_newLi);
+			}
+			//add li into ul in loop
+
+
+		}
 		
 		function newNote(){
-			let newTextArea = document.createElement('div');
-  			newTextArea.id = "forms__textarea";
-  			newTextArea.className = "textarea_div";
-  			newTextArea.contentEditable = true;
-  			newTextArea.innerHTML = `Привет, мир! 
+			let _newTextArea = document.createElement('div');
+  			_newTextArea.id = "__forms__textarea";
+  			_newTextArea.className = "textarea_div";
+  			_newTextArea.contentEditable = true;
+  			_newTextArea.innerHTML = `Привет, мир! 
   			<br>  			
   			hohoho`;  			
-			document.getElementById("_base-div__forms").appendChild(newTextArea);
-			let newBtnSave = document.createElement('button');
-			newBtnSave.innerHTML = 'save';
-			newBtnSave.onclick = saveNote;
-			document.getElementById("_base-div__forms").appendChild(newBtnSave);			
+			document.getElementById("__base-div__forms").appendChild(_newTextArea);
+			let _newBtnSave = document.createElement('button');
+			_newBtnSave.innerHTML = 'save';
+			_newBtnSave.onclick = saveNote;
+			document.getElementById("__base-div__forms").appendChild(_newBtnSave);			
 		}
 
 		function saveNote(){
-			//alert(document.getElementById("forms__textarea").innerHTML);
+			//alert(document.getElementById("__forms__textarea").innerHTML);
 			/*
 			if (localStorage.key('tags') == null) {
 				alert('nulllll');
@@ -39,7 +64,7 @@
 			if (localStorage.length > 0) {
 				let num = parseInt(localStorage.getItem('maxKey'),10);
 				num++;
-				localStorage.setItem('n_' + num,document.getElementById("forms__textarea").innerHTML);
+				localStorage.setItem('n_' + num,document.getElementById("__forms__textarea").innerHTML);
 				localStorage.setItem('maxKey', num);	
 			}			
 		}
@@ -47,6 +72,8 @@
 		function parseTags(){
 
 		}
+
+
 
 
 
@@ -91,9 +118,9 @@
 <body>
 	<div class="base-div">
 		<button onclick="newNote()">new note</button>
-		<button>all notes</button>
+		<button onclick="showNotesList()">all notes</button>
 		<button>etc</button>
-		<div class="base-div__forms" id="_base-div__forms">
+		<div class="base-div__forms" id="__base-div__forms">
 			
 		</div>
 		
