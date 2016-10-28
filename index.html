@@ -71,20 +71,31 @@
 			//breakpoint: flg view|new note
 			if (flg == undefined){ //new note
 				_newTextArea.contentEditable = true;
-				addSaveButton();		
+				addSaveButton();	
+				parseCurrTags();	
 				//after click divedit false, parse tags, hide btn save, output tags under div
 			} else { //view note
+				addBtnDel(flg);
 				_newTextArea.innerHTML = localStorage.getItem(flg);
 				_newTextArea.addEventListener('dblclick', function(){ 
 					//edit onclick
 					document.getElementById("__forms__textarea").contentEditable = true;
 					addSaveButton(flg);
+					parseCurrTags();
 				});
-
 			}			
 		}	
 
+		function addBtnDel(flg){
+			let _newBtnDel = document.createElement('button');
+			_newBtnDel.innerHTML = 'delete';
+			_newBtnDel.addEventListener('click', function(){localStorage.removeItem(flg); showNotesList();});
+			_newBtnDel.className = "btn";
+			document.getElementById("__base-div__forms").appendChild(_newBtnDel);
+		}
+
 		function addSaveButton(flg){// flags new|edit  
+			//parseInputTags();
 			let _newBtnSave = document.createElement('button');
 			_newBtnSave.innerHTML = 'save';			
 			if (flg == undefined){// new note
@@ -122,20 +133,37 @@
 			//put tags in global variable from localstorage
 		}
 
+		function parseCurrTags(){
+			//in opened note
+			let input = document.querySelector('.textarea_div');
+			input.addEventListener('keyup', function (event) {
+				if (event.keyCode == 32){
+					let text = this.textContent;
+					//alert(text);
+					
+				}
+			});			 
+		}
 
-
-		/*
-		let input = document.querySelector('.textarea_div');
+		
+		let input;
+		function parseInputTags(){
+			let input = document.querySelector('.textarea_div');
 			input.addEventListener('keyup', function (event) {
 			    // забираем только текст, без тегов
-			    var text = this.textContent;
-			    // заменяем
-			    var highlighted = text.replace(/(#\w+)/g, '<span class="hashtag">$1</span>');
-			    // обновляем содержимое
-			    this.innerHTML = highlighted;
-			    // установка курсора в конец строки
-			    placeCaretAtEnd(this);
+			    //if ((event.keyCode != 37) && (event.keyCode != 39) && (event.keyCode != 32)){
+			    //if (event.keyCode == 32){
+			    	var text = this.textContent;
+				    // заменяем
+				    var highlighted = text.replace(/(#\w+)/g, '<span class="hashtag">$1</span>');
+				    // обновляем содержимое
+				    this.innerHTML = highlighted;
+				    // установка курсора в конец строки
+				    //placeCaretAtEnd(this);
+			    //}
+			    
 			});		
+		}		
 
 		function placeCaretAtEnd(el) {
 		    el.focus();
@@ -154,7 +182,7 @@
 		        textRange.collapse(false);
 		        textRange.select();
 		    }
-		}*/
+		}
 
 
 		init();
