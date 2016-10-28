@@ -15,10 +15,16 @@
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
 			}
+			if (localStorage.getItem('hashtags').length > 0){
+				//put  to array, array -> globset
+			}
+			/*
+			local -> Array
+			if array.size > 0 -> globalset = array
+			*/
 		}
 
-		function deleteNodes(ID){
-			
+		function deleteNodes(ID){			
 	        let _node = document.getElementById(ID);
 			while (_node.firstChild) {
 			    _node.removeChild(_node.firstChild);
@@ -84,10 +90,8 @@
 				_newTextArea.innerHTML = localStorage.getItem(flg);				
 				parseTags(_newTextArea.innerHTML);
 				_newTextArea.addEventListener('dblclick', function(){ 
-					//edit onclick
 					document.getElementById("__forms__textarea").contentEditable = true;
-					addSaveButton(flg);
-					
+					addSaveButton(flg);					
 					parseCurrTags();
 				});
 			}			
@@ -101,8 +105,7 @@
 			document.getElementById("__base-div__forms").appendChild(_newBtnDel);
 		}
 
-		function addSaveButton(flg){// flags new|edit  
-			//parseInputTags();
+		function addSaveButton(flg){// flags new|edit 			
 			let _newBtnSave = document.createElement('button');
 			_newBtnSave.innerHTML = 'save';			
 			if (flg == undefined){// new note
@@ -124,28 +127,30 @@
 			document.getElementById("__base-div__forms").appendChild(_newBtnSave);
 		}
 
-		function saveNote(flg){//flags new|edit, if edit => add localstorage key = flg id
-			//if flg == undefined = new note add
+		function saveNote(flg){
 			if (flg == undefined) {//new note save
 				let num = parseInt(localStorage.getItem('maxKey'),10);
 				num++;
 				localStorage.setItem(_mask + num,document.getElementById("__forms__textarea").innerHTML);
 				localStorage.setItem('maxKey', num);	
-				//save tags from global to localstorage
+				
 			} else {//edit note save
 				localStorage.setItem(flg, document.getElementById("__forms__textarea").innerHTML);
-				//save tags from global to localstorage
-			}			
+				
+			}
+			saveGlobalTags();	
 		}
 
 		function parseTagsInArray(){
 			//put tags in global variable from localstorage
-		}
-
-		
+		}		
 
 		function saveGlobalTags(){
-			//save to localstorage
+			if (_currTags.size > 0){
+				//_globalHashTagsSet = _currTags;
+				for (let item of _currTags) _globalHashTagsSet.add(item);
+				localStorage.setItem('hashtags',Array.from(_globalHashTagsSet));
+			}
 		}
 
 		function clearTempSet(){
@@ -155,19 +160,14 @@
 		function parseTags(text){
 			clearTempSet();
 			let _tagsArray =[];
-					_tagsArray = text;
-					_tagsArray = _tagsArray.split(' ');
-					for (let i = 0; i < _tagsArray.length; i++){
-						if (_tagsArray[i].indexOf('#') == 0 ){
-							//add tag to global-temp array	
-							_currTags.add(_tagsArray[i]);
-							//add to global tags
-						}
-					}
-					//alert(Array.from(_currTags));
-					//вывод тегов в поле
-
-					document.getElementById("__tagsArea").innerHTML = Array.from(_currTags);
+			_tagsArray = text;
+			_tagsArray = _tagsArray.split(' ');
+			for (let i = 0; i < _tagsArray.length; i++){
+				if (_tagsArray[i].indexOf('#') == 0 ){							
+					_currTags.add(_tagsArray[i]);							
+				}
+			}					
+			document.getElementById("__tagsArea").innerHTML = Array.from(_currTags);
 		}
 
 		function parseCurrTags(){
