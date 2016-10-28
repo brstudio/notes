@@ -4,17 +4,86 @@
 	<meta charset="utf-8">
 	 <link href="style.css" rel="stylesheet">
 	<script type="text/javascript">
+
+		function init(){
+			if (localStorage.length <= 0){
+				localStorage.setItem('maxKey','1');
+			}
+		}
 		
 		function newNote(){
-			let newTextArea = document.createElement('textarea');
-  			newTextArea.innerHTML = 'Привет, мир!';
+			let newTextArea = document.createElement('div');
   			newTextArea.id = "forms__textarea";
-  			let _base_div__forms = document.getElementById("_base-div__forms");
-  			_base_div__forms.appendChild(newTextArea);
-			let textArea = document.getElementById("forms__textarea");
-			textArea.innerHTML = "azazaza";
+  			newTextArea.className = "textarea_div";
+  			newTextArea.contentEditable = true;
+  			newTextArea.innerHTML = `Привет, мир! 
+  			<br>  			
+  			hohoho`;  			
+			document.getElementById("_base-div__forms").appendChild(newTextArea);
+			let newBtnSave = document.createElement('button');
+			newBtnSave.innerHTML = 'save';
+			newBtnSave.onclick = saveNote;
+			document.getElementById("_base-div__forms").appendChild(newBtnSave);			
 		}
 
+		function saveNote(){
+			//alert(document.getElementById("forms__textarea").innerHTML);
+			/*
+			if (localStorage.key('tags') == null) {
+				alert('nulllll');
+			}
+			if (localStorage.length > 0) {
+				alert(localStorage.key('tags'));
+			}*/
+
+			if (localStorage.length > 0) {
+				let num = parseInt(localStorage.getItem('maxKey'),10);
+				num++;
+				localStorage.setItem('n_' + num,document.getElementById("forms__textarea").innerHTML);
+				localStorage.setItem('maxKey', num);	
+			}			
+		}
+
+		function parseTags(){
+
+		}
+
+
+
+		/*
+		let input = document.querySelector('.textarea_div');
+			input.addEventListener('keyup', function (event) {
+			    // забираем только текст, без тегов
+			    var text = this.textContent;
+			    // заменяем
+			    var highlighted = text.replace(/(#\w+)/g, '<span class="hashtag">$1</span>');
+			    // обновляем содержимое
+			    this.innerHTML = highlighted;
+			    // установка курсора в конец строки
+			    placeCaretAtEnd(this);
+			});		
+
+		function placeCaretAtEnd(el) {
+		    el.focus();
+		    if (typeof window.getSelection != "undefined" &&
+		        typeof document.createRange != "undefined"
+		    ) {
+		        var range = document.createRange();
+		        range.selectNodeContents(el);
+		        range.collapse(false);
+		        var sel = window.getSelection();
+		        sel.removeAllRanges();
+		        sel.addRange(range);
+		    } else if (typeof document.body.createTextRange != "undefined") {
+		        var textRange = document.body.createTextRange();
+		        textRange.moveToElementText(el);
+		        textRange.collapse(false);
+		        textRange.select();
+		    }
+		}*/
+
+
+		init();
 	</script>
 
 	<title>Notes</title>
