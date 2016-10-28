@@ -15,13 +15,13 @@
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
 			}
-			if (localStorage.getItem('hashtags').length > 0){
-				//put  to array, array -> globset
+			if (localStorage.getItem('hashtags').length > 0){				
+				let _tmpArray = localStorage.getItem('hashtags');				
+				_tmpArray = _tmpArray.split(',');
+				for (let i = 0; i < _tmpArray.length; i++){
+					_globalHashTagsSet.add(_tmpArray[i]);
+				}
 			}
-			/*
-			local -> Array
-			if array.size > 0 -> globalset = array
-			*/
 		}
 
 		function deleteNodes(ID){			
@@ -163,8 +163,11 @@
 			_tagsArray = text;
 			_tagsArray = _tagsArray.split(' ');
 			for (let i = 0; i < _tagsArray.length; i++){
-				if (_tagsArray[i].indexOf('#') == 0 ){							
-					_currTags.add(_tagsArray[i]);							
+				if (_tagsArray[i].indexOf('#') == 0 ){	
+					let _s = _tagsArray[i];
+					let _s2 = _s.substring(1,_s.length);	
+					//$newstr = str.substring(from,to);					
+					_currTags.add(_s2);							
 				}
 			}					
 			document.getElementById("__tagsArea").innerHTML = Array.from(_currTags);
