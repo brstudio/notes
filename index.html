@@ -10,13 +10,14 @@
 		const _mask = 'n_';
 		let _globalHashTagsSet = new Set();
 		let _currTags = new Set();
+		let _tmpArray = [];
 
 		function init(){
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
 			}
 			if (localStorage.getItem('hashtags').length > 0){				
-				let _tmpArray = localStorage.getItem('hashtags');				
+				_tmpArray = localStorage.getItem('hashtags');				
 				_tmpArray = _tmpArray.split(',');
 				for (let i = 0; i < _tmpArray.length; i++){
 					_globalHashTagsSet.add(_tmpArray[i]);
@@ -31,7 +32,43 @@
 			}
 		}
 
-		function showNotesList(){
+		function showTagsList(){
+			let _tagsListDiv = document.createElement('div');
+			_tagsListDiv.id = "__forms__tagsList";
+			_tagsListDiv.className = "tagsList";
+			document.getElementById("__base-div__forms").appendChild(_tagsListDiv);
+			let _inputText = document.createElement('input');
+			_inputText.type = "text";
+			_inputText.className = "inputText";
+			_inputText.placeholder = "enter tag";
+			_inputText.addEventListener('keyup', function(event){
+				if (event.keyCode == 13){
+					let text = this.value;
+					//alert(text);
+					//search function
+					showNotesList(text);
+				}				
+			});
+
+			document.getElementById("__forms__tagsList").appendChild(_inputText);
+			let _newUl = document.createElement('ul');
+			_newUl.id = "__taglistUl";
+			document.getElementById("__forms__tagsList").appendChild(_newUl);
+			let ul = document.getElementById("__taglistUl");
+			if (_tmpArray.length > 0){
+				for (let i = 0; i < _tmpArray.length -1; i++){
+					let _newLi = document.createElement('li');
+					_newLi.id = _tmpArray[i];
+					_newLi.className = "tagsListItem";
+					_newLi.innerHTML = _tmpArray[i];	
+					//_newLi.addEventListener('dblclick', function(){/*delete*/});
+					ul.appendChild(_newLi);	
+				}
+			}
+
+		}
+
+		function showNotesList(flg){
 			//delete previous nodes in DOM
 			deleteNodes("__base-div__forms");
 			let _notesListDiv = document.createElement('div');
@@ -39,24 +76,38 @@
 			_notesListDiv.className = "notesList";
 			//add div into DOM
 			document.getElementById("__base-div__forms").appendChild(_notesListDiv);
+			showTagsList();
 			//add ul into div
 			let _newUl = document.createElement('ul');
 			_newUl.id = "__newUl";
 			document.getElementById("__forms__notesList").appendChild(_newUl);
 			let ul = document.getElementById("__newUl");
 			//verify localstorage length
-			if (localStorage.length > 1) { //1 - maxID, 2 - tags array, change on 2 later
+			if (localStorage.length > 2) { //1 - maxID, 2 - tags array
 				//add li into ul in loop
 				for (let i = 0; i < localStorage.length; i++) {
 					//mask verify
 					let _key = localStorage.key(i);
 					if (_key.indexOf(_mask) == 0) {
-						let _newLi = document.createElement('li');
-						_newLi.id = _key;
-						_newLi.className = "noteListItem";
-						_newLi.innerHTML = localStorage.getItem(_key);	
-						_newLi.addEventListener('click', function(){note(_key);});
-						ul.appendChild(_newLi);	
+						if (flg == undefined){
+							let _newLi = document.createElement('li');
+							_newLi.id = _key;
+							_newLi.className = "noteListItem";
+							_newLi.innerHTML = localStorage.getItem(_key);	
+							_newLi.addEventListener('click', function(){note(_key);});
+							ul.appendChild(_newLi);	
+						} else { //search
+							if (localStorage.getItem(_key).indexOf('#'+flg) != -1){
+								//alert(localStorage.getItem(_key));
+								let _newLi = document.createElement('li');
+								_newLi.id = _key;
+								_newLi.className = "noteListItem";
+								_newLi.innerHTML = localStorage.getItem(_key);	
+								_newLi.addEventListener('click', function(){note(_key);});
+								ul.appendChild(_newLi);	
+							}
+						}
+						
 					}					
 				}	
 			}
@@ -146,8 +197,7 @@
 		}		
 
 		function saveGlobalTags(){
-			if (_currTags.size > 0){
-				//_globalHashTagsSet = _currTags;
+			if (_currTags.size > 0){				
 				for (let item of _currTags) _globalHashTagsSet.add(item);
 				localStorage.setItem('hashtags',Array.from(_globalHashTagsSet));
 			}
@@ -165,8 +215,7 @@
 			for (let i = 0; i < _tagsArray.length; i++){
 				if (_tagsArray[i].indexOf('#') == 0 ){	
 					let _s = _tagsArray[i];
-					let _s2 = _s.substring(1,_s.length);	
-					//$newstr = str.substring(from,to);					
+					let _s2 = _s.substring(1,_s.length);									
 					_currTags.add(_s2);							
 				}
 			}					

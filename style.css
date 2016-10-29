@@ -8,12 +8,46 @@
   display: block; 
 }
 
+.inputText{
+	border: 1px solid rgba(0, 0, 0, .3);
+	font-family: "Calibri";
+	border-radius: 5px;	
+	margin-top: 10px;
+	width: 120px;
+}
+
+.tagsList{
+	float: right;	
+	margin-right: 600px;
+}
+
+.tagsListItem:hover{
+	background: rgba(0, 0, 0, .4);
+	color: rgba(255, 255, 255, .9)
+}
+
+.tagsListItem{
+	border: 1px solid rgba(0, 0, 0, .3);
+	font-family: "Calibri";
+	border-radius: 5px;	
+	list-style-type: none;
+	margin-top: 10px;
+	width: 120px;
+}
+
+.notesList{
+	float: left;
+}
+
+
 .tagsArea{
 	border: 1px solid black;
 	font-family: "Calibri";
 	border-radius: 5px;
 	height: 20px;
 	margin-top: 10px;	
+	float: right;
+	width: 150px;
 }
 
 .btn{
@@ -25,11 +59,13 @@
 }
 
 .textarea_div {
+	float: left;
 	border: 1px solid black;
 	font-family: "Calibri";
 	border-radius: 5px;
 	height: 20px;
 	margin-top: 10px;
+	width: 500px;
 }
 
 .noteListItem:hover{
@@ -42,5 +78,6 @@
 	border-radius: 5px;	
 	list-style-type: none;
 	margin-top: 10px;
+	width: 500px;
 }
 
