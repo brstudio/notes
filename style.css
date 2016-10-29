@@ -45,13 +45,15 @@
 	font-family: "Calibri";
 	border-radius: 5px;
 	height: 20px;
-	margin-top: 10px;	
-	float: right;
-	width: 150px;
+	margin-top: 50px;	
+	/*float: right;*/
+	width: 1000px;
 }
 
 .btn{
 	margin-top: 10px;
+	border-radius: 5px;
+	outline: none;
 }
 
 .hashtag {
@@ -59,13 +61,13 @@
 }
 
 .textarea_div {
-	float: left;
+	/*float: left;*/
 	border: 1px solid black;
 	font-family: "Calibri";
 	border-radius: 5px;
 	height: 20px;
 	margin-top: 10px;
-	width: 500px;
+	width: 1000px;
 }
 
 .noteListItem:hover{

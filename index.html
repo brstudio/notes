@@ -15,14 +15,16 @@
 		function init(){
 			if (localStorage.length <= 0){
 				localStorage.setItem('maxKey','1');
-			}
-			if (localStorage.getItem('hashtags').length > 0){				
+			} 
+			if (localStorage.getItem('hashtags') == null){
+				localStorage.setItem('hashtags','');
+			} else if (localStorage.getItem('hashtags').length > 0){
 				_tmpArray = localStorage.getItem('hashtags');				
 				_tmpArray = _tmpArray.split(',');
 				for (let i = 0; i < _tmpArray.length; i++){
 					_globalHashTagsSet.add(_tmpArray[i]);
 				}
-			}
+			}			
 		}
 
 		function deleteNodes(ID){			
@@ -56,12 +58,12 @@
 			document.getElementById("__forms__tagsList").appendChild(_newUl);
 			let ul = document.getElementById("__taglistUl");
 			if (_tmpArray.length > 0){
-				for (let i = 0; i < _tmpArray.length -1; i++){
+				for (let i = 0; i < _tmpArray.length ; i++){
 					let _newLi = document.createElement('li');
 					_newLi.id = _tmpArray[i];
 					_newLi.className = "tagsListItem";
 					_newLi.innerHTML = _tmpArray[i];	
-					//_newLi.addEventListener('dblclick', function(){/*delete*/});
+					_newLi.addEventListener('dblclick', function(){tagDel(_tmpArray[i])});
 					ul.appendChild(_newLi);	
 				}
 			}
@@ -70,7 +72,9 @@
 
 		function showNotesList(flg){
 			//delete previous nodes in DOM
+			init();
 			deleteNodes("__base-div__forms");
+
 			let _notesListDiv = document.createElement('div');
 			_notesListDiv.id = "__forms__notesList";
 			_notesListDiv.className = "notesList";
@@ -106,12 +110,30 @@
 								_newLi.addEventListener('click', function(){note(_key);});
 								ul.appendChild(_newLi);	
 							}
-						}
-						
+						}						
 					}					
 				}	
 			}
 		}		
+
+		function tagDel(flg){						
+			for (let i = 0; i < localStorage.length; i++) {
+				//mask verify
+				let _key = localStorage.key(i);
+				if (_key.indexOf(_mask) == 0) {						
+					if (localStorage.getItem(_key).indexOf('#'+flg) != -1){
+						_globalHashTagsSet.delete(flg);
+						localStorage.setItem('hashtags',Array.from(_globalHashTagsSet));
+						//del in tmp -> save local
+						let _strTemp = localStorage.getItem(_key);							
+						_strTemp = _strTemp.replace('#'+ flg, flg);
+						localStorage.setItem(_key, _strTemp);
+					}						
+				}					
+			}	
+			showNotesList();
+			location.reload();
+		}
 		
 		function note(flg){		
 			/*
@@ -158,7 +180,8 @@
 
 		function addSaveButton(flg){// flags new|edit 			
 			let _newBtnSave = document.createElement('button');
-			_newBtnSave.innerHTML = 'save';			
+			_newBtnSave.innerHTML = 'save';	
+			_newBtnSave.className = "btn";		
 			if (flg == undefined){// new note
 				_newBtnSave.addEventListener('click',function(){
 					saveNote();
@@ -273,16 +296,16 @@
 		}
 */
 
-		init();
+		//init();
+		//showNotesList();
 	</script>
 
 	<title>Notes</title>
 </head>
-<body>
+<body onload="showNotesList()">
 	<div class="base-div">
-		<button onclick="note()">new note</button>
-		<button onclick="showNotesList()">all notes</button>
-		<button>etc</button>
+		<button onclick="note()" class="btn">new note</button>
+		<button onclick="showNotesList()" class="btn">all notes</button>		
 		<div class="base-div__forms" id="__base-div__forms">
 			
 		</div>
