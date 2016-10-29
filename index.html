@@ -45,13 +45,10 @@
 			_inputText.placeholder = "enter tag for search";
 			_inputText.addEventListener('keyup', function(event){
 				if (event.keyCode == 13){
-					let text = this.value;
-					//alert(text);
-					//search function
+					let text = this.value;					
 					showNotesList(text);
 				}				
 			});
-
 			document.getElementById("__forms__tagsList").appendChild(_inputText);
 			let _newUl = document.createElement('ul');
 			_newUl.id = "__taglistUl";
@@ -67,14 +64,12 @@
 					ul.appendChild(_newLi);	
 				}
 			}
-
 		}
 
 		function showNotesList(flg){
 			//delete previous nodes in DOM
 			init();
 			deleteNodes("__base-div__forms");
-
 			let _notesListDiv = document.createElement('div');
 			_notesListDiv.id = "__forms__notesList";
 			_notesListDiv.className = "notesList";
@@ -184,15 +179,13 @@
 			_newBtnSave.className = "btn";		
 			if (flg == undefined){// new note
 				_newBtnSave.addEventListener('click',function(){
-					saveNote();
-					//hide btn, div edit = false
-					document.getElementById("__forms__textarea").contentEditable = false;
-					document.getElementById("__base-div__forms").removeChild(document.getElementById("__base-div__forms").lastChild);
+				saveNote();				
+				document.getElementById("__forms__textarea").contentEditable = false;
+				document.getElementById("__base-div__forms").removeChild(document.getElementById("__base-div__forms").lastChild);
 				});
 			} else {
 				_newBtnSave.addEventListener('click',function(){
-					saveNote(flg);
-					//hide btn, div edit = false
+					saveNote(flg);					
 					document.getElementById("__forms__textarea").contentEditable = false;
 					document.getElementById("__base-div__forms").removeChild(document.getElementById("__base-div__forms").lastChild);
 				});
@@ -206,17 +199,11 @@
 				let num = parseInt(localStorage.getItem('maxKey'),10);
 				num++;
 				localStorage.setItem(_mask + num,document.getElementById("__forms__textarea").innerHTML);
-				localStorage.setItem('maxKey', num);	
-				
+				localStorage.setItem('maxKey', num);				
 			} else {//edit note save
-				localStorage.setItem(flg, document.getElementById("__forms__textarea").innerHTML);
-				
+				localStorage.setItem(flg, document.getElementById("__forms__textarea").innerHTML);				
 			}
 			saveGlobalTags();	
-		}
-
-		function parseTagsInArray(){
-			//put tags in global variable from localstorage
 		}		
 
 		function saveGlobalTags(){
@@ -254,64 +241,16 @@
 					parseTags(text);
 				}
 			});			 
-		}
-
-		/*
-		let input;
-		function parseInputTags(){
-			let input = document.querySelector('.textarea_div');
-			input.addEventListener('keyup', function (event) {
-			    // забираем только текст, без тегов
-			    //if ((event.keyCode != 37) && (event.keyCode != 39) && (event.keyCode != 32)){
-			    //if (event.keyCode == 32){
-			    	var text = this.textContent;
-				    // заменяем
-				    var highlighted = text.replace(/(#\w+)/g, '<span class="hashtag">$1</span>');
-				    // обновляем содержимое
-				    this.innerHTML = highlighted;
-				    // установка курсора в конец строки
-				    //placeCaretAtEnd(this);
-			    //}
-			    
-			});		
-		}		
-
-		function placeCaretAtEnd(el) {
-		    el.focus();
-		    if (typeof window.getSelection != "undefined" &&
-		        typeof document.createRange != "undefined"
-		    ) {
-		        var range = document.createRange();
-		        range.selectNodeContents(el);
-		        range.collapse(false);
-		        var sel = window.getSelection();
-		        sel.removeAllRanges();
-		        sel.addRange(range);
-		    } else if (typeof document.body.createTextRange != "undefined") {
-		        var textRange = document.body.createTextRange();
-		        textRange.moveToElementText(el);
-		        textRange.collapse(false);
-		        textRange.select();
-		    }
-		}
-*/
-
-		//init();
-		//showNotesList();
+		}	
 	</script>
-
 	<title>Notes</title>
 </head>
 <body onload="showNotesList()">
 	<div class="base-div">
 		<button onclick="note()" class="btn">new note</button>
 		<button onclick="showNotesList()" class="btn">all notes</button>		
-		<div class="base-div__forms" id="__base-div__forms">
-			
+		<div class="base-div__forms" id="__base-div__forms">			
 		</div>
-		
-
 	</div>
-
 </body>
 </html>
